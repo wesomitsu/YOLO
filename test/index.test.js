@@ -53,3 +53,10 @@ test('CLI exits 2 on bad input', () => {
   assert.equal(spawnSync(process.execPath, [cli, '#12', '#fff']).status, 2);
   assert.equal(spawnSync(process.execPath, [cli, '#fff']).status, 2);
 });
+
+test('CLI --fail-under sets the exit code', () => {
+  assert.equal(spawnSync(process.execPath, [cli, '#777', '#fff', '--fail-under', 'AA']).status, 1);
+  assert.equal(spawnSync(process.execPath, [cli, '#767676', '#fff', '--fail-under', 'aa']).status, 0);
+  assert.equal(spawnSync(process.execPath, [cli, '#000', '#fff', '--fail-under', 'AAA']).status, 0);
+  assert.equal(spawnSync(process.execPath, [cli, '#000', '#fff', '--fail-under', 'B']).status, 2);
+});

@@ -1,4 +1,4 @@
-// Accepts #rgb, #rrggbb (the # is optional) and rgb(r, g, b).
+// Accepts #rgb, #rrggbb (the # is optional), rgb(r, g, b) and hsl(h, s%, l%).
 export function parseColor(input) {
   const value = String(input).trim().toLowerCase();
 
@@ -16,7 +16,22 @@ export function parseColor(input) {
     if (channels.every((c) => c <= 255)) return channels;
   }
 
-  throw new Error(`Can't read the color "${input}". Use #rgb, #rrggbb or rgb(r, g, b).`);
+  const hsl = value.match(/^hsl\(\s*(\d{1,3}(?:\.\d+)?)\s*,\s*(\d{1,3}(?:\.\d+)?)%\s*,\s*(\d{1,3}(?:\.\d+)?)%\s*\)$/);
+  if (hsl) {
+    const [h, sat, light] = hsl.slice(1).map(Number);
+    if (h <= 360 && sat <= 100 && light <= 100) return hslToRgb(h, sat / 100, light / 100);
+  }
+
+  throw new Error(`Can't read the color "${input}". Use #rgb, #rrggbb, rgb(r, g, b) or hsl(h, s%, l%).`);
+}
+
+function hslToRgb(h, s, l) {
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => {
+    const k = (n + h / 30) % 12;
+    return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1))));
+  };
+  return [f(0), f(8), f(4)];
 }
 
 // Relative luminance, as defined by WCAG 2.x.

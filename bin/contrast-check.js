@@ -10,7 +10,7 @@ AA and AAA for normal and large text.
 Use --fail-under to exit with code 1 when normal text misses a level
 (handy in CI).
 
-Colors can be #rgb, #rrggbb or rgb(r, g, b). Quote them in your shell:
+Colors can be #rgb, #rrggbb, rgb(r, g, b) or hsl(h, s%, l%). Quote them in your shell:
   contrast-check "#1e293b" "#ffffff"`;
 
 let args;

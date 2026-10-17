@@ -18,7 +18,7 @@ Contrast 14.63:1
 contrast-check <text color> <background color> [--json]
 ```
 
-Colors can be `#rgb`, `#rrggbb` (the `#` is optional) `rgb(r, g, b)` or `hsl(h, s%, l%)`.
+Colors can be `#rgb`, `#rrggbb` (the `#` is optional), `rgb(r, g, b)` or `hsl(h, s%, l%)`.
 Quote them, since `#` starts a comment in most shells.
 
 `--json` prints the result as JSON, handy for scripts:
@@ -56,6 +56,8 @@ Contrast 4.48:1
   Large text   AA pass  AAA fail
 Try #767676 for AA (4.54:1)
 ```
+
+Results are colored green/red in a terminal. Set `NO_COLOR=1` to turn that off.
 
 ## GitHub Action
 

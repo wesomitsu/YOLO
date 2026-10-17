@@ -67,7 +67,10 @@ const result = rate(ratio);
 if (values.json) {
   console.log(JSON.stringify({ text, background, ratio: Number(ratio.toFixed(2)), ...result }, null, 2));
 } else {
-  const mark = (pass) => (pass ? 'pass' : 'fail');
+  // Color only on a real terminal, and never when NO_COLOR is set.
+  const color = process.stdout.isTTY && !process.env.NO_COLOR;
+  const paint = (code, str) => (color ? `\x1b[${code}m${str}\x1b[0m` : str);
+  const mark = (pass) => (pass ? paint(32, 'pass') : paint(31, 'fail'));
   console.log(`${text} on ${background}`);
   console.log(`Contrast ${ratio.toFixed(2)}:1`);
   console.log(`  Normal text  AA ${mark(result.normal.AA)}  AAA ${mark(result.normal.AAA)}`);

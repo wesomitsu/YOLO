@@ -18,7 +18,7 @@ Contrast 14.63:1
 contrast-check <text color> <background color> [--json]
 ```
 
-Colors can be `#rgb`, `#rrggbb` (the `#` is optional) `rgb(r, g, b)` or `hsl(h, s%, l%)`.
+Colors can be `#rgb`, `#rrggbb` (the `#` is optional), `rgb(r, g, b)` or `hsl(h, s%, l%)`.
 Quote them, since `#` starts a comment in most shells.
 
 `--json` prints the result as JSON, handy for scripts:

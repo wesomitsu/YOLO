@@ -60,6 +60,12 @@ const ratio = contrastRatio('#1e293b', '#fff'); // 14.63...
 rate(ratio).normal.AA; // true
 ```
 
+## Development
+
+```sh
+npm test
+```
+
 ## License
 
 MIT

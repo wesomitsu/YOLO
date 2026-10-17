@@ -40,6 +40,12 @@ $ contrast-check "#777" "#fff" --json
 }
 ```
 
+`--fail-under AA` (or `AAA`) exits with code 1 when normal text misses that level, so you can use it in CI:
+
+```sh
+contrast-check "#777" "#fff" --fail-under AA  # exits 1
+```
+
 ## What the levels mean
 
 | Level | Normal text | Large text (24px+, or 18.66px+ bold) |

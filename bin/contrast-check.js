@@ -7,6 +7,9 @@ const HELP = `Usage: contrast-check <text color> <background color> [--json]
 Shows the WCAG contrast ratio between two colors and whether it passes
 AA and AAA for normal and large text.
 
+Use --fail-under to exit with code 1 when normal text misses a level
+(handy in CI).
+
 Colors can be #rgb, #rrggbb or rgb(r, g, b). Quote them in your shell:
   contrast-check "#1e293b" "#ffffff"`;
 
@@ -16,6 +19,7 @@ try {
     allowPositionals: true,
     options: {
       json: { type: 'boolean' },
+      'fail-under': { type: 'string' },
       help: { type: 'boolean', short: 'h' },
     },
   });
@@ -31,6 +35,12 @@ if (values.help) {
 }
 if (positionals.length !== 2) {
   console.error(HELP);
+  process.exit(2);
+}
+
+const level = values['fail-under']?.toUpperCase();
+if (level !== undefined && level !== 'AA' && level !== 'AAA') {
+  console.error('--fail-under must be AA or AAA');
   process.exit(2);
 }
 
@@ -53,3 +63,5 @@ if (values.json) {
   console.log(`  Normal text  AA ${mark(result.normal.AA)}  AAA ${mark(result.normal.AAA)}`);
   console.log(`  Large text   AA ${mark(result.large.AA)}  AAA ${mark(result.large.AAA)}`);
 }
+
+if (level && !result.normal[level]) process.exit(1);

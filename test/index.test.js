@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { contrastRatio, parseColor, rate } from '../src/index.js';
+import { contrastRatio, parseColor, rate, suggest } from '../src/index.js';
 
 const cli = fileURLToPath(new URL('../bin/contrast-check.js', import.meta.url));
 const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 0.005, `${actual} != ${expected}`);
@@ -71,4 +71,11 @@ test('parses hsl() colors', () => {
 test('CLI --version prints the package version', () => {
   const out = execFileSync(process.execPath, [cli, '--version'], { encoding: 'utf8' });
   assert.match(out.trim(), /^\d+\.\d+\.\d+$/);
+});
+
+test('suggest finds a passing color', () => {
+  assert.equal(suggest('#777', '#fff'), '#767676');
+  assert.equal(suggest('#000', '#fff'), '#000000');
+  const fix = suggest('#3b82f6', '#1e293b', 7);
+  assert.ok(contrastRatio(fix, '#1e293b') >= 7);
 });

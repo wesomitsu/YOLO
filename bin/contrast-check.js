@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
-import { contrastRatio, rate } from '../src/index.js';
+import { contrastRatio, rate, suggest } from '../src/index.js';
 
 const HELP = `Usage: contrast-check <text color> <background color> [--json]
 
@@ -10,6 +10,8 @@ AA and AAA for normal and large text.
 
 Use --fail-under to exit with code 1 when normal text misses a level
 (handy in CI).
+
+Use --suggest to get the closest text color that passes AA.
 
 Colors can be #rgb, #rrggbb, rgb(r, g, b) or hsl(h, s%, l%). Quote them in your shell:
   contrast-check "#1e293b" "#ffffff"`;
@@ -21,6 +23,7 @@ try {
     options: {
       json: { type: 'boolean' },
       'fail-under': { type: 'string' },
+      suggest: { type: 'boolean' },
       help: { type: 'boolean', short: 'h' },
       version: { type: 'boolean', short: 'v' },
     },
@@ -69,6 +72,10 @@ if (values.json) {
   console.log(`Contrast ${ratio.toFixed(2)}:1`);
   console.log(`  Normal text  AA ${mark(result.normal.AA)}  AAA ${mark(result.normal.AAA)}`);
   console.log(`  Large text   AA ${mark(result.large.AA)}  AAA ${mark(result.large.AAA)}`);
+  if (values.suggest && !result.normal.AA) {
+    const fix = suggest(text, background, 4.5);
+    console.log(fix ? `Try ${fix} for AA (${contrastRatio(fix, background).toFixed(2)}:1)` : 'No text color reaches AA on this background');
+  }
 }
 
 if (level && !result.normal[level]) process.exit(1);

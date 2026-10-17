@@ -67,3 +67,8 @@ test('parses hsl() colors', () => {
   assert.deepEqual(parseColor('hsl(0, 0%, 100%)'), [255, 255, 255]);
   assert.throws(() => parseColor('hsl(400, 10%, 10%)'), /Can't read/);
 });
+
+test('CLI --version prints the package version', () => {
+  const out = execFileSync(process.execPath, [cli, '--version'], { encoding: 'utf8' });
+  assert.match(out.trim(), /^\d+\.\d+\.\d+$/);
+});

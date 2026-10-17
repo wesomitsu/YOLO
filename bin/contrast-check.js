@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { readFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 import { contrastRatio, rate } from '../src/index.js';
 
@@ -21,6 +22,7 @@ try {
       json: { type: 'boolean' },
       'fail-under': { type: 'string' },
       help: { type: 'boolean', short: 'h' },
+      version: { type: 'boolean', short: 'v' },
     },
   });
 } catch (err) {
@@ -29,6 +31,11 @@ try {
 }
 
 const { values, positionals } = args;
+if (values.version) {
+  const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+  console.log(pkg.version);
+  process.exit(0);
+}
 if (values.help) {
   console.log(HELP);
   process.exit(0);

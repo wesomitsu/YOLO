@@ -1,0 +1,30 @@
+{
+  "name": "contrast-check",
+  "version": "1.0.0",
+  "description": "Check the WCAG contrast ratio between two colors from the command line.",
+  "type": "module",
+  "bin": {
+    "contrast-check": "bin/contrast-check.js"
+  },
+  "exports": "./src/index.js",
+  "files": [
+    "bin",
+    "src"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "contrast",
+    "wcag",
+    "accessibility",
+    "a11y",
+    "color",
+    "cli"
+  ],
+  "author": "wesomitsu",
+  "license": "MIT"
+}

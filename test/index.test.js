@@ -60,3 +60,10 @@ test('CLI --fail-under sets the exit code', () => {
   assert.equal(spawnSync(process.execPath, [cli, '#000', '#fff', '--fail-under', 'AAA']).status, 0);
   assert.equal(spawnSync(process.execPath, [cli, '#000', '#fff', '--fail-under', 'B']).status, 2);
 });
+
+test('parses hsl() colors', () => {
+  assert.deepEqual(parseColor('hsl(0, 100%, 50%)'), [255, 0, 0]);
+  assert.deepEqual(parseColor('hsl(120, 100%, 25%)'), [0, 128, 0]);
+  assert.deepEqual(parseColor('hsl(0, 0%, 100%)'), [255, 255, 255]);
+  assert.throws(() => parseColor('hsl(400, 10%, 10%)'), /Can't read/);
+});

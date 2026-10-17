@@ -46,6 +46,17 @@ $ contrast-check "#777" "#fff" --json
 contrast-check "#777" "#fff" --fail-under AA  # exits 1
 ```
 
+`--suggest` prints the closest text color (same hue, darker or lighter) that passes AA:
+
+```console
+$ contrast-check "#777" "#fff" --suggest
+#777 on #fff
+Contrast 4.48:1
+  Normal text  AA fail  AAA fail
+  Large text   AA pass  AAA fail
+Try #767676 for AA (4.54:1)
+```
+
 ## What the levels mean
 
 | Level | Normal text | Large text (24px+, or 18.66px+ bold) |

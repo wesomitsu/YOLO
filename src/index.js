@@ -55,3 +55,26 @@ export function rate(ratio) {
     large: { AA: ratio >= 3, AAA: ratio >= 4.5 },
   };
 }
+
+const toHex = (rgb) => '#' + rgb.map((c) => c.toString(16).padStart(2, '0')).join('');
+
+// Finds the closest text color (same hue, scaled towards black or white)
+// that reaches the target ratio on the background. Returns null if none does.
+export function suggest(text, background, target = 4.5) {
+  const fg = parseColor(text);
+  const bg = toHex(parseColor(background));
+  if (contrastRatio(toHex(fg), bg) >= target) return toHex(fg);
+
+  let best = null;
+  for (const toward of [0, 255]) {
+    for (let step = 1; step <= 100; step++) {
+      const t = step / 100;
+      const candidate = toHex(fg.map((c) => Math.round(c + (toward - c) * t)));
+      if (contrastRatio(candidate, bg) >= target) {
+        if (!best || step < best.step) best = { step, color: candidate };
+        break;
+      }
+    }
+  }
+  return best ? best.color : null;
+}

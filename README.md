@@ -57,6 +57,8 @@ Contrast 4.48:1
 Try #767676 for AA (4.54:1)
 ```
 
+Results are colored green/red in a terminal. Set `NO_COLOR=1` to turn that off.
+
 ## GitHub Action
 
 ```yaml

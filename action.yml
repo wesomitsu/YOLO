@@ -1,0 +1,24 @@
+name: contrast-check
+description: Fail the job when two colors don't meet a WCAG contrast level.
+branding:
+  icon: eye
+  color: blue
+inputs:
+  text:
+    description: Text color, e.g. "#1e293b"
+    required: true
+  background:
+    description: Background color, e.g. "#ffffff"
+    required: true
+  level:
+    description: AA or AAA (for normal text)
+    default: AA
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: node "$GITHUB_ACTION_PATH/bin/contrast-check.js" "$TEXT" "$BACKGROUND" --fail-under "$LEVEL" --suggest
+      env:
+        TEXT: ${{ inputs.text }}
+        BACKGROUND: ${{ inputs.background }}
+        LEVEL: ${{ inputs.level }}

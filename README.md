@@ -57,6 +57,18 @@ Contrast 4.48:1
 Try #767676 for AA (4.54:1)
 ```
 
+## GitHub Action
+
+```yaml
+- uses: wesomitsu/YOLO@main
+  with:
+    text: '#1e293b'
+    background: '#ffffff'
+    level: AA # or AAA
+```
+
+The step fails if the pair misses the level, and prints a suggested fix.
+
 ## What the levels mean
 
 | Level | Normal text | Large text (24px+, or 18.66px+ bold) |
